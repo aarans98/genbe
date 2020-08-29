@@ -10,4 +10,6 @@ import com.ananda.genbe.model.entity.*;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Integer> {
 	
+	List<Person> findByNik(String nik);
+	
 }

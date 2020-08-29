@@ -8,11 +8,6 @@ import com.ananda.genbe.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-//import java.util.List;
-//import java.util.stream.Collectors;
-//import java.time.*;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.time.LocalDate;
@@ -79,39 +74,45 @@ public class PersonController {
 		return validasiSukses();
 	}
 
-	// soal no. 2
-//	@GetMapping("/{nik}")
-//	public ValidasiDataDto get(@PathVariable String nik) {	
-//		ValidasiDataDto dto = new ValidasiDataDto();
-//		Soal2Dto dto_2 = new Soal2Dto();
-//		
-//		Calendar calendar = Calendar.getInstance();
-//		Date birth = dto_2.getDate();
-//		calendar.setTime(birth);
-//
-//		int year = calendar.get(Calendar.YEAR);
-//		int month = calendar.get(Calendar.MONTH) + 1;
-//		int date = calendar.get(Calendar.DATE);
-//		LocalDate birth_day = LocalDate.of(year, month, date);
-//		LocalDate now = LocalDate.now();
-//		Period age = Period.between(birth_day, now);
-//		
-//		if (nik.length() == 16) {
-//			dto_2.setNik(nik);
-//			dto_2.setName(person.getN);
-//			dto_2.setAdress(adress);
-//			dto_2.setHp(hp);
-//			dto_2.setDate(date);
-//			dto_2.setTempatLahir();
-//			dto_2.setUmur(age);
-//			dto_2.setPenidikan_terakhir(penidikan_terakhir);
-//		} else if (nik.length()!=16){
-//			return validasiGagal1();
-//		} else {
-//			dto.setStatus("true");
-//			dto.setMessage("data dengan nik " + nik + " tidak ditemukan");
-//		}
-//	}
+//	soal no. 2 masih error
+	@GetMapping("/{nik}")
+	public void get(@PathVariable String nik) {
+		ValidasiDataDto validasi = new ValidasiDataDto();
+
+		if (!personRepository.findByNik(nik).isEmpty() && nik.length() == 16) {
+			Soal2Dto input = new Soal2Dto();
+			Person person = personRepository.findByNik(nik).get(0);
+			Integer kodePerson = person.getKodePerson();
+			Biodata biodata = biodataRepository.findAllByPersonKodePerson(kodePerson);
+			Calendar calendar = Calendar.getInstance();
+			Date birth = biodata.getDate();
+			calendar.setTime(birth);
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH) + 1;
+			int date = calendar.get(Calendar.DATE);
+			LocalDate birth_day = LocalDate.of(year, month, date);
+			LocalDate now = LocalDate.now();
+			Period age = Period.between(birth_day, now);
+			input.setNik(nik);
+			input.setName(person.getNama());
+			input.setAdress(person.getAlamat());
+			input.setHp(biodata.getNoHp());
+			input.setDate(biodata.getDate());
+			input.setTempatLahir(biodata.getTempatLahir());
+			input.setUmur(String.valueOf(age.getYears()));
+			validasi.setStatus("true");
+			validasi.setMessage("succes");
+//		} else if (age.getYears() < 30) {
+//			validasi.setStatus("false");
+//			validasi.setMessage("datta gagal masuk, umur kurang dari 30");
+		} else if (nik.length() != 16) {
+			validasi.setStatus("false");
+			validasi.setMessage("data gagal masuk, nik tidak sama dengan 16 digit");
+		} else {
+			validasi.setStatus("true");
+			validasi.setMessage("data dengan nik " + nik + " tidak ditemukan");
+		}
+	}
 
 	private Person convertToEntityPerson(PersonDto dto) {
 		Person person = new Person();

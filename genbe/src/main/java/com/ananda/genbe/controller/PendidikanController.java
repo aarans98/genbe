@@ -32,6 +32,16 @@ public class PendidikanController {
 		this.pendidikanRepository = pendidikanRepository;
 	}
 	
+//	@PostMapping
+//	public ValidasiDataDto insert(@RequestBody PendidikanDto pendDto) {
+//		if {
+//			
+//		} else {
+//			return validasiGagal();
+//		}
+//			return  validasiSukses();
+//	}
+	
 	public ValidasiDataDto validasiSukses() {
 		ValidasiDataDto dto = new ValidasiDataDto();
 		dto.setStatus("true");

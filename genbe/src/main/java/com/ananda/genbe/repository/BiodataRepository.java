@@ -11,4 +11,6 @@ import org.springframework.data.repository.query.Param;
 public interface BiodataRepository extends JpaRepository<Biodata, Integer> {
 	
 //	@Query(value = "SELECT nik, name, hp, tgl, tempatLahir, pendidikanTerakhir FROM ", nativeQuery = true)
+	Biodata findAllByPersonKodePerson(Integer kodePerson);
+	
 }

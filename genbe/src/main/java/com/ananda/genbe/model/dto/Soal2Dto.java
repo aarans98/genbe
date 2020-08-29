@@ -11,7 +11,7 @@ public class Soal2Dto {
 	private Date date;
 	private String tempatLahir;
 	private String umur;
-	private String penidikan_terakhir;
+	private String pendidikan_terakhir;
 
 	public String getNik() {
 		return nik;
@@ -69,12 +69,12 @@ public class Soal2Dto {
 		this.umur = umur;
 	}
 
-	public String getPenidikan_terakhir() {
-		return penidikan_terakhir;
+	public String getPendidikan_terakhir() {
+		return pendidikan_terakhir;
 	}
 
-	public void setPenidikan_terakhir(String penidikan_terakhir) {
-		this.penidikan_terakhir = penidikan_terakhir;
+	public void setPendidikan_terakhir(String pendidikan_terakhir) {
+		this.pendidikan_terakhir = pendidikan_terakhir;
 	}
 
 }

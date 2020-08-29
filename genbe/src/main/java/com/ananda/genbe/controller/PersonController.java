@@ -53,13 +53,12 @@ public class PersonController {
 		return dto;
 	}
 
-	// Soal No. 1
+//	 Soal No. 1
 	@PostMapping
 	public ValidasiDataDto insert(@RequestBody PersonDto dto) {
 		Calendar calendar = Calendar.getInstance();
 		Date birth = dto.getTgl();
 		calendar.setTime(birth);
-
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int date = calendar.get(Calendar.DATE);
@@ -73,7 +72,8 @@ public class PersonController {
 		} else {
 			Person person = convertToEntityPerson(dto);
 			personRepository.save(person);
-			Biodata biodata = convertToEntity(dto);
+			dto.setKode(person.getKodePerson());
+			Biodata biodata = convertToEntityBiodata(dto);
 			biodataRepository.save(biodata);
 		}
 		return validasiSukses();
@@ -81,8 +81,36 @@ public class PersonController {
 
 	// soal no. 2
 //	@GetMapping("/{nik}")
-//	public ValidasiDataDto get(@PathVariable String nik) {
+//	public ValidasiDataDto get(@PathVariable String nik) {	
+//		ValidasiDataDto dto = new ValidasiDataDto();
+//		Soal2Dto dto_2 = new Soal2Dto();
 //		
+//		Calendar calendar = Calendar.getInstance();
+//		Date birth = dto_2.getDate();
+//		calendar.setTime(birth);
+//
+//		int year = calendar.get(Calendar.YEAR);
+//		int month = calendar.get(Calendar.MONTH) + 1;
+//		int date = calendar.get(Calendar.DATE);
+//		LocalDate birth_day = LocalDate.of(year, month, date);
+//		LocalDate now = LocalDate.now();
+//		Period age = Period.between(birth_day, now);
+//		
+//		if (nik.length() == 16) {
+//			dto_2.setNik(nik);
+//			dto_2.setName(person.getN);
+//			dto_2.setAdress(adress);
+//			dto_2.setHp(hp);
+//			dto_2.setDate(date);
+//			dto_2.setTempatLahir();
+//			dto_2.setUmur(age);
+//			dto_2.setPenidikan_terakhir(penidikan_terakhir);
+//		} else if (nik.length()!=16){
+//			return validasiGagal1();
+//		} else {
+//			dto.setStatus("true");
+//			dto.setMessage("data dengan nik " + nik + " tidak ditemukan");
+//		}
 //	}
 
 	private Person convertToEntityPerson(PersonDto dto) {
@@ -93,7 +121,7 @@ public class PersonController {
 		return person;
 	}
 
-	private Biodata convertToEntity(PersonDto dto) {
+	private Biodata convertToEntityBiodata(PersonDto dto) {
 		Person person = new Person();
 		person = personRepository.findById(dto.getKode()).get();
 		Biodata biodata = new Biodata();

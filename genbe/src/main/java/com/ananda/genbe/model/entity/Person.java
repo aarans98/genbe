@@ -20,7 +20,6 @@ public class Person {
     @Column(name = "alamat")
     private String alamat;
     
-    
 	public Integer getKodePerson() {
 		return kodePerson;
 	}

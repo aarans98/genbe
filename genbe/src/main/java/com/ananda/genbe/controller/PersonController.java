@@ -4,6 +4,8 @@ import com.ananda.genbe.model.dto.*;
 import com.ananda.genbe.model.entity.*;
 import com.ananda.genbe.repository.*;
 //import com.ananda.genbe.service.*;
+import com.ananda.genbe.service.PersonService;
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/person")
@@ -20,11 +24,17 @@ public class PersonController {
 	@Autowired
 	private PersonRepository personRepository;
 	private BiodataRepository biodataRepository;
+	private PendidikanRepository pendidikanRepository;
 
 	@Autowired
-	public PersonController(PersonRepository personRepository, BiodataRepository biodataRepository) {
+	PersonService personService;
+
+	@Autowired
+	public PersonController(PersonRepository personRepository, BiodataRepository biodataRepository,
+			PendidikanRepository pendidikanRepository) {
 		this.personRepository = personRepository;
 		this.biodataRepository = biodataRepository;
+		this.pendidikanRepository = pendidikanRepository;
 	}
 
 	public ValidasiDataDto validasiSukses() {
@@ -48,9 +58,17 @@ public class PersonController {
 		return dto;
 	}
 
-//	 Soal No. 1
+	public ValidasiDataDto validasiGagal3(String nik) {
+		ValidasiDataDto dto = new ValidasiDataDto();
+		dto.setStatus("false");
+		dto.setMessage("data dengan nik " + nik + " tidak ditemukan");
+		return dto;
+	}
+
+//	Soal No. 1
 	@PostMapping
 	public ValidasiDataDto insert(@RequestBody PersonDto dto) {
+
 		Calendar calendar = Calendar.getInstance();
 		Date birth = dto.getTgl();
 		calendar.setTime(birth);
@@ -60,32 +78,32 @@ public class PersonController {
 		LocalDate birth_day = LocalDate.of(year, month, date);
 		LocalDate now = LocalDate.now();
 		Period age = Period.between(birth_day, now);
+
 		if (dto.getNik().length() != 16) {
 			return validasiGagal1();
 		} else if (age.getYears() < 30) {
 			return validasiGagal2();
 		} else {
 			Person person = convertToEntityPerson(dto);
-			personRepository.save(person);
+			personService.insertPerson(person);
 			dto.setKode(person.getKodePerson());
 			Biodata biodata = convertToEntityBiodata(dto);
-			biodataRepository.save(biodata);
+			personService.insertBiodata(biodata);
 		}
 		return validasiSukses();
 	}
 
-//	soal no. 2 masih error
+//	Soal no. 2
 	@GetMapping("/{nik}")
-	public void get(@PathVariable String nik) {
-		ValidasiDataDto validasi = new ValidasiDataDto();
+	public ArrayList<Object> get(@PathVariable String nik) {
+		ArrayList<Object> List = new ArrayList<Object>();
+		ValidasiDataDto output = new ValidasiDataDto();
 
-		if (!personRepository.findByNik(nik).isEmpty() && nik.length() == 16) {
+		if (personRepository.findByNik(nik) != null && nik.length() == 16) {
 			Soal2Dto input = new Soal2Dto();
-			Person person = personRepository.findByNik(nik).get(0);
-			Integer kodePerson = person.getKodePerson();
-			Biodata biodata = biodataRepository.findAllByPersonKodePerson(kodePerson);
+			OutputSoal2Dto outputTrue = new OutputSoal2Dto();
 			Calendar calendar = Calendar.getInstance();
-			Date birth = biodata.getDate();
+			Date birth = biodataRepository.findTglByPersonNik(nik);
 			calendar.setTime(birth);
 			int year = calendar.get(Calendar.YEAR);
 			int month = calendar.get(Calendar.MONTH) + 1;
@@ -93,25 +111,28 @@ public class PersonController {
 			LocalDate birth_day = LocalDate.of(year, month, date);
 			LocalDate now = LocalDate.now();
 			Period age = Period.between(birth_day, now);
-			input.setNik(nik);
-			input.setName(person.getNama());
-			input.setAdress(person.getAlamat());
-			input.setHp(biodata.getNoHp());
-			input.setDate(biodata.getDate());
-			input.setTempatLahir(biodata.getTempatLahir());
+			input.setNik(personRepository.findByNik(nik));
+			input.setName(personRepository.findNameByNik(nik));
+			input.setAdress(personRepository.findAddressByNik(nik));
+			input.setHp(biodataRepository.findNoHpByPersonNik(nik));
+			input.setDate(biodataRepository.findTglByPersonNik(nik));
+			input.setTempatLahir(biodataRepository.findTempatLahirByPersonNik(nik));
 			input.setUmur(String.valueOf(age.getYears()));
-			validasi.setStatus("true");
-			validasi.setMessage("succes");
-//		} else if (age.getYears() < 30) {
-//			validasi.setStatus("false");
-//			validasi.setMessage("datta gagal masuk, umur kurang dari 30");
+			input.setPendidikan_terakhir(pendidikanRepository.findJenjangByNik(nik));
+			outputTrue.setStatus("true");
+			outputTrue.setMessage("succes");
+			outputTrue.setData(input);
+			List.add(outputTrue);
 		} else if (nik.length() != 16) {
-			validasi.setStatus("false");
-			validasi.setMessage("data gagal masuk, nik tidak sama dengan 16 digit");
+			output.setStatus("false");
+			output.setMessage("data gagal masuk jumlah digit nik tidak sama dengan 16");
+			List.add(output);
 		} else {
-			validasi.setStatus("true");
-			validasi.setMessage("data dengan nik " + nik + " tidak ditemukan");
+			output.setStatus("false");
+			output.setMessage("data dengan nik " + nik + " tidak ditemukan");
+			List.add(output);
 		}
+		return List;
 	}
 
 	private Person convertToEntityPerson(PersonDto dto) {

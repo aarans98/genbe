@@ -1,6 +1,6 @@
 package com.ananda.genbe.model.dto;
 
-import java.sql.Date;;
+import java.util.Date;;
 
 public class Soal2Dto {
 

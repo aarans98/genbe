@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Biodata {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_bio", nullable = false, unique = true)
 	private Integer kodeBio;
 	
@@ -25,7 +25,7 @@ public class Biodata {
 	private String tempatLahir;
 	
 	@OneToOne
-	@JoinColumn(name = "idperson", nullable = false)
+	@JoinColumn(name = "id_person", nullable = false)
 	private Person person;
 
 	public Integer getKodeBio() {

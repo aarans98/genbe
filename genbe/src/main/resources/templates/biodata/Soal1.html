@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html layout:decorate="~{base}" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<div class="row mb-2" layout:fragment="content-header">
+	<div class="col-sm-6">
+		<h1>Form Person</h1>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb float-sm-right">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item active">Form Person</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row" layout:fragment="content-body">
+	<!-- left column -->
+	<div class="col-md">
+		<!-- general form elements -->
+		<div class="card card-primary">
+			<div class="card-header">
+				<h3 class="card-title">Form Person</h3>
+			</div>
+			<ul id="orders"></ul>
+			<!-- /.card-header -->
+			<!-- form start -->
+			<form role="form">
+				<div class="card-body">
+					<div class="form-group">
+						<label for="nik" class="col-sm-2 control-label">NIK</label> <input
+							type="text" class="form-control" id="nik" placeholder="NIK">
+					</div>
+					<div class="form-group">
+						<label for="nama" class="col-sm-2 control-label">Nama</label> <input
+							type="text" class="form-control" id="nama" placeholder="Nama">
+					</div>
+					<div class="form-group">
+						<label for="alamat" class="col-sm-2 control-label">Alamat</label>
+						<input type="text" class="form-control" id="alamat"
+							placeholder="Alamat">
+					</div>
+					<div class="form-group">
+						<label for="no_hp" class="col-sm-2 control-label">No. Hp</label> <input
+							type="text" class="form-control" id="no_hp" placeholder="No. Hp">
+					</div>
+					<div class="form-group">
+						<label for="tanggl_lahir" class="col-sm-2 control-label">Tanggal
+							lahir</label> <input type="date" class="form-control" id="tanggal_lahir"
+							placeholder="Tanggal Lahir">
+					</div>
+					<div class="form-group">
+						<label for="tempat_lahir" class="col-sm-2 control-label">Tempat
+							Lahir</label> <input type="text" class="form-control" id="tempat_lahir"
+							placeholder="Tempat Lahir">
+					</div>
+				</div>
+				<!-- /.card-body -->
+				<div class="card-footer" align="right">
+					<button type="button" class="btn btn-primary" id="submit1">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<th:block layout:fragment="add-scripts">
+	<script>
+/* 		$("#myInput").on(
+				"keyup",
+				function() {
+					var value = $(this).val().toLowerCase();
+					$("#example2 tr").filter(
+							function() {
+								$(this).toggle(
+										$(this).text().toLowerCase().indexOf(
+												value) > -1)
+							});
+				});
+
+		$("#reset").click(function() {
+			Swal.fire('Data berhasil dihapus','','success')
+			$("table tbody").empty();
+		}); */
+
+		$("#submit1").on('click', function() {
+			$(function () {	
+			var $orders = $("table tbody");
+			var $nik = $("#nik");
+			var $nama = $("#nama");
+			var $alamat = $("#alamat");
+			var $no_hp = $("#no_hp");
+			var $tanggal_lahir = $("#tanggal_lahir");
+			var $tempat_lahir = $("#tempat_lahir");
+			
+			var order = {
+				nik: $nik.val(),
+				name: $nama.val(),
+				address: $alamat.val(),
+				hp: $no_hp.val(),
+				tgl: $tanggal_lahir.val(),
+				tempatLahir: $tempat_lahir.val(),
+			};
+			
+			console.log(order);
+ 			$.ajax({
+				headers: {
+        			'Content-Type': 'application/json',
+        			'Accept': 'application/json'
+    			},
+				type: 'POST',
+				url: '/person/insert',
+				data: JSON.stringify(order),
+				dataType: "json",
+ 				success: function(newOrder) {
+					if(newOrder.status == 'true') {
+							Swal.fire({
+								position : 'top',
+								icon : 'success',
+								title : 'status: ' + newOrder.status
+										+ '\n' + ' message: '
+										+ newOrder.message,
+								showConfirmButton : false,
+								timer : 2000
+							});
+ 					} else {
+						Swal.fire({
+							position : 'top',
+							icon : 'info',
+							title : 'status: ' + newOrder.status
+									+ '\n' + ' message: '
+									+ newOrder.message,
+							showConfirmButton : false,
+							timer : 2000
+						});
+ 						
+ 					}
+							
+				},
+ 				error: function() {
+					alert('error saving order');
+				}
+				
+			}); 
+			})
+		});
+	</script>
+</th:block>
+</html>

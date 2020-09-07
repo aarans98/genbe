@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html layout:decorate="~{base}" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<div class="row mb-2" layout:fragment="content-header">
+	<div class="col-sm-6">
+		<h1>Form Biodata</h1>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb float-sm-right">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item active">Form Biodata</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row" layout:fragment="content-body">
+	<!-- left column -->
+	<div class="col-md">
+		<!-- general form elements -->
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Tabel Data Biodata</h3>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body">
+
+				<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+					<div class="row">
+						<div class="col-sm-12 col-md-6"></div>
+						<div class="col-sm-12 col-md-6"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<form>
+								<input type="text" class="form-control" id="nik"
+									placeholder="NIK">
+							</form>
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-primary" id="cari">Cari</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="example2"
+								class="table table-bordered table-hover dataTable dtr-inline"
+								role="grid" aria-describedby="example2_info">
+								<thead>
+									<tr role="row">
+										<th class="sorting_asc" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1" aria-sort="ascending"
+											aria-label="Rendering engine: activate to sort column descending">NIK</th>
+										<th class="sorting_asc" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1" aria-sort="ascending"
+											aria-label="Rendering engine: activate to sort column descending">Nama</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="Browser: activate to sort column ascending">Alamat</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="Browser: activate to sort column ascending">No.
+											Hp</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="Platform(s): activate to sort column ascending">Tanggal
+											Lahir</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="Engine version: activate to sort column ascending">Tempat
+											Lahir</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="CSS grade: activate to sort column ascending">Umur</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="CSS grade: activate to sort column ascending">Pendidikan
+											Terakhir</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-5">
+							<div class="dataTables_info" id="example2_info" role="status"
+								aria-live="polite">Showing 1 to 10 of 57 entries</div>
+						</div>
+						<div class="col-sm-12 col-md-7">
+							<div class="dataTables_paginate paging_simple_numbers"
+								id="example2_paginate">
+								<ul class="pagination">
+									<li class="paginate_button page-item previous disabled"
+										id="example2_previous"><a href="#"
+										aria-controls="example2" data-dt-idx="0" tabindex="0"
+										class="page-link">Previous</a></li>
+									<li class="paginate_button page-item active"><a href="#"
+										aria-controls="example2" data-dt-idx="1" tabindex="0"
+										class="page-link">1</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="2" tabindex="0"
+										class="page-link">2</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="3" tabindex="0"
+										class="page-link">3</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="4" tabindex="0"
+										class="page-link">4</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="5" tabindex="0"
+										class="page-link">5</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="6" tabindex="0"
+										class="page-link">6</a></li>
+									<li class="paginate_button page-item next" id="example2_next"><a
+										href="#" aria-controls="example2" data-dt-idx="7" tabindex="0"
+										class="page-link">Next</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.card-body -->
+			<div class="card-footer" align="right">
+				<button type="submit" class="btn btn-primary" id="reset">Reset</button>
+			</div>
+		</div>
+	</div>
+</div>
+<th:block layout:fragment="add-scripts">
+	<script>
+		$("#cari").click(
+				function() {
+					$(function() {
+						var $orders = $("table tbody");
+						$.ajax({
+							type : 'GET',
+							url : '/person/' + $("#nik").val(),
+							success : function(orders) {
+								$.each(orders, function(i, order) {
+									Swal.fire({
+										position : 'top',
+										icon : 'success',
+										title : 'status: ' + order.status
+												+ '\n' + ' message: '
+												+ order.message,
+										showConfirmButton : false,
+										timer : 1500
+									});
+									$orders.append("<tr><td>" + order.data.nik
+											+ "</td><td>" + order.data.name
+											+ "</td><td>" + order.data.adress
+											+ "</td><td>" + order.data.hp
+											+ "</td><td>" + order.data.date
+											+ "</td><td>"
+											+ order.data.tempatLahir
+											+ "</td><td>" + order.data.umur
+											+ "</td><td>"
+											+ order.data.pendidikan_terakhir
+											+ "</td></tr>");
+								});
+							}
+						});
+					});
+				});
+	</script>
+	<script>
+		$("#reset").click(function() {
+			Swal.fire('Data berhasil dihapus', '', 'success')
+			$("table tbody").empty();
+		});
+	</script>
+</th:block>
+</html>

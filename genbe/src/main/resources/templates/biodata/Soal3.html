@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html layout:decorate="~{base}" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<div class="row mb-2" layout:fragment="content-header">
+	<div class="col-sm-6">
+		<h1>Form Pendidikan</h1>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb float-sm-right">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item active">Form Pendidikan</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row" layout:fragment="content-body">
+	<!-- left column -->
+	<div class="col-md">
+		<!-- general form elements -->
+		<div class="card card-primary">
+			<div class="card-header">
+				<h3 class="card-title">Form Pendidikan</h3>
+			</div>
+			<!-- /.card-header -->
+			<!-- form start -->
+			<form role="form" method="post">
+				<div class="card-body">
+					<div class="form-group">
+						<label for="jenjang" class="col-sm-2 control-label">Id
+							Person</label> <input type="number" class="form-control" id="idPerson"
+							placeholder="idPerson">
+					</div>
+					<div class="form-group">
+						<label for="jenjang" class="col-sm-2 control-label">Jenjang</label>
+						<select class="form-control" id="jenjang">
+							<option></option>
+							<option>SD</option>
+							<option>SMP</option>
+							<option>SMA</option>
+							<option>Sarjana</option>
+							<option>Magister</option>
+							<option>Doktoral</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="institusi" class="col-sm-2 control-label">Institusi</label>
+						<input type="text" class="form-control" id="institusi"
+							placeholder="Institusi">
+					</div>
+					<div class="form-group">
+						<label for="tahun_masuk" class="col-sm-2 control-label">Tahun
+							Masuk</label> <input type="text" class="form-control" id="tahun_masuk"
+							placeholder="Tahun Masuk">
+					</div>
+					<div class="form-group">
+						<label for="tahun_lulus" class="col-sm-2 control-label">Tahun
+							Lulus</label> <input type="text" class="form-control" id="tahun_lulus"
+							placeholder="Tahun Lulus">
+					</div>
+				</div>
+				<!-- /.card-body -->
+				<div class="card-footer" align="right">
+					<button type="button" class="btn btn-primary" id="add">Add</button>
+				</div>
+			</form>
+		</div>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Tabel Data Pendidikan</h3>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body">
+				<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+					<div class="row">
+						<div class="col-sm-12 col-md-6"></div>
+						<div class="col-sm-12 col-md-6"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="example2"
+								class="table table-bordered table-hover dataTable dtr-inline"
+								role="grid" aria-describedby="example2_info">
+								<thead>
+									<tr role="row">
+										<th class="sorting_asc" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1" aria-sort="ascending"
+											aria-label="Rendering engine: activate to sort column descending">id
+											Person</th>
+										<th class="sorting_asc" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1" aria-sort="ascending"
+											aria-label="Rendering engine: activate to sort column descending">Jenjang</th>
+										<th class="sorting_asc" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1" aria-sort="ascending"
+											aria-label="Rendering engine: activate to sort column descending">Institusi</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="Browser: activate to sort column ascending">Tahun
+											Masuk</th>
+										<th class="sorting" tabindex="0" aria-controls="example2"
+											rowspan="1" colspan="1"
+											aria-label="Browser: activate to sort column ascending">Tahun
+											Lulus</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-5">
+							<div class="dataTables_info" id="example2_info" role="status"
+								aria-live="polite">Showing 1 to 10 of 57 entries</div>
+						</div>
+						<div class="col-sm-12 col-md-7">
+							<div class="dataTables_paginate paging_simple_numbers"
+								id="example2_paginate">
+								<ul class="pagination">
+									<li class="paginate_button page-item previous disabled"
+										id="example2_previous"><a href="#"
+										aria-controls="example2" data-dt-idx="0" tabindex="0"
+										class="page-link">Previous</a></li>
+									<li class="paginate_button page-item active"><a href="#"
+										aria-controls="example2" data-dt-idx="1" tabindex="0"
+										class="page-link">1</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="2" tabindex="0"
+										class="page-link">2</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="3" tabindex="0"
+										class="page-link">3</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="4" tabindex="0"
+										class="page-link">4</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="5" tabindex="0"
+										class="page-link">5</a></li>
+									<li class="paginate_button page-item "><a href="#"
+										aria-controls="example2" data-dt-idx="6" tabindex="0"
+										class="page-link">6</a></li>
+									<li class="paginate_button page-item next" id="example2_next"><a
+										href="#" aria-controls="example2" data-dt-idx="7" tabindex="0"
+										class="page-link">Next</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.card-body -->
+			<div class="card-footer" align="right">
+				<button type="button" class="btn btn-primary" id="save">Save</button>
+			</div>
+		</div>
+	</div>
+	<!-- data-toggle="modal" data-target="#myModal" -->
+<!-- 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h1 class="modal-title" id="myModalLabel">Modal title</h1>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="save_changes">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>
+<th:block layout:fragment="add-scripts">
+	<script>
+		$("#add").click(
+				function() {
+					var idPerson = $("#idPerson").val();
+					var jenjang = $("#jenjang").val();
+					var institusi = $("#institusi").val();
+					var tahun_masuk = $("#tahun_masuk").val();
+					var tahun_lulus = $("#tahun_lulus").val();
+					new_row = '<tr><td class="idPerson">' + idPerson
+							+ '</td><td class="jenjang">' + jenjang
+							+ '</td><td class="institusi">' + institusi
+							+ '</td><td class="tahun_masuk">' + tahun_masuk
+							+ '</td><td class="tahun_lulus">' + tahun_lulus
+							+ "</td></tr>";
+					$("table tbody").append(new_row);
+					return false;
+				});
+
+		$("#save").click(function() {
+			var array = [];
+			var idPerson, jenjang, institusi, masuk, lulus;
+			$("table tbody tr").each(function(index) {
+				array.push({
+					idPerson : $(this).find('.idPerson').text(),
+					jenjang : $(this).find('.jenjang').text(),
+					institusi : $(this).find('.institusi').text(),
+					masuk : $(this).find('.tahun_masuk').text(),
+					lulus : $(this).find('.tahun_lulus').text()
+				});
+			});
+/* 	 		$("#save_change").click(function() {
+				submitFormData(array);
+			}  */
+			//console.log(array);
+		});
+		
+
+		function submitFormData(formData) {
+			$.ajax({
+				headers : {
+					'Content-Type' : 'application/json',
+					'Accept' : 'application/json'
+				},
+				type : 'POST',
+				url : '/pendidikan/' + $("#idPerson").val(),
+				data : JSON.stringify(formData),
+				dataType : "json",
+				success : function(result) {
+					if (result.status == 'true') {
+						Swal.fire({
+							position : 'top',
+							icon : 'success',
+							title : 'status: ' + result.status + '\n'
+									+ ' message: ' + result.message,
+							showConfirmButton : false,
+							timer : 1500
+						});
+					} else {
+						Swal.fire({
+							position : 'top',
+							icon : 'info',
+							title : 'status: ' + result.status + '\n'
+									+ ' message: ' + result.message,
+							showConfirmButton : false,
+							timer : 1500
+						});
+					}
+				}
+			});
+		}
+	</script>
+</th:block>
+</html>

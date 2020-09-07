@@ -56,18 +56,18 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	@Override
-	public Integer insertPendidikan(@RequestBody List<PendidikanDto> pendDto, @PathVariable Integer idPerson) {
-		int count = 0;
+	public void insertPendidikan(@RequestBody List<PendidikanDto> pendDto, @PathVariable Integer idPerson) {
+
 		for (int i = 0; i < pendDto.size(); i++) {
 			Pendidikan pendidikan = convertToEntity(pendDto.get(i));
-			pendidikan.setPerson(personRepository.findById(idPerson).get());
-			pendidikanRepository.save(pendidikan);
 			if (pendidikan.getInstitusi() == null || pendidikan.getJenjang() == null ||
 					pendidikan.getTahunLulus() == null || pendidikan.getTahunMasuk() == null) {
-				count++;
-			} else {}
+				Integer.parseInt("Saya");
+			} else {
+				pendidikan.setPerson(personRepository.findById(idPerson).get());
+				pendidikanRepository.save(pendidikan);
+			}
 		}
-		return count;
 	}
 	
 	private Pendidikan convertToEntity(PendidikanDto pendDto) {

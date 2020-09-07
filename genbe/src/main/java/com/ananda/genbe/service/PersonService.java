@@ -15,5 +15,5 @@ public interface PersonService {
 	public void insertBiodata(Biodata bio);
 	public void insertPerson(Person person);
 	public void insertPendidikan(Pendidikan pend);
-	public Integer insertPendidikan(@RequestBody List<PendidikanDto> pendDto, @PathVariable Integer idPerson);
+	public void insertPendidikan(@RequestBody List<PendidikanDto> pendDto, @PathVariable Integer idPerson);
 }

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html layout:decorate="~{base}" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+
+<div class="row mb-2" layout:fragment="content-header">
+	<div class="col-sm-6">
+		<h1 class="m-0 text-dark">Biodata</h1>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb float-sm-right">
+			<li class="breadcrumb-item"><a href="#">Biodata</a></li>
+			<li class="breadcrumb-item active">Kelola</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row" layout:fragment="content-body">
+
+
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">List Biodata</h3>
+				<button class="float-right btn-primary" id="btn-tambah-biodata">Tambah</button>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body table-responsive">
+				<table class="table table-striped table-bordered table-hover nowrap"
+					id="tableBiodata" style="width: 100%"></table>
+			</div>
+			<!-- /.card-body -->
+			<div class="sm-col-2">
+				<label>NIK : </label> <input class="form-control" id="nik"
+					name="nik" placeholder="NIK" required type="text">
+			</div>
+		</div>
+		<!-- /.card -->
+	</div>
+	<!-- /.col -->
+	<div class="modal fade" id="modal-biodata">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Form Person</h4>
+					<button aria-label="Close" class="close" data-dismiss="modal"
+						type="button">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="card-header"></div>
+					<form id="form-biodata" role="form">
+						<input name="id" type="hidden" />
+
+						<div class="form-group">
+							<label>NIK : </label> <input class="form-control" id="nik"
+								name="nik" placeholder="NIK" required type="text">
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+					<button class="btn btn-primary" id="btn-save-biodata" type="button">Save</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>
+
+
+<th:block layout:fragment="add-scripts">
+	<script>
+		var tableBiodata = {
+			create : function() {
+				// jika table tersebut datatable, maka clear and dostroy
+				if ($.fn.DataTable.isDataTable('#tableBiodata')) {
+					//table yg sudah dibentuk menjadi datatable harus d rebuild lagi untuk di instantiasi ulang
+					$('#tableBiodata').DataTable().clear();
+					$('#tableBiodata').DataTable().destroy();
+				}
+
+				$.ajax({
+					url : '/person/' + $("#nik").val(),
+					method : 'get',
+					contentType : 'application/json',
+					success : function(res, status, xhr) {
+						if (xhr.status == 200 || xhr.status == 201) {
+							console.log(res);
+							$('#tableBiodata').DataTable({
+								data : res,
+								columns : [ {
+									title : "NIK",
+									data : "nik"
+								}, {
+									title : "Nama",
+									data : "name"
+								}, {
+									title : "Alamat",
+									data : "address"
+								}, {
+									title : "No. Hp",
+									data : "hp"
+								}, {
+									title : "Tanggal Lahir",
+									data : "tgl"
+								}, {
+									title : "Tempat Lahir",
+									data : "tempatLahir"
+								}, {
+									title : "Umur",
+									data : "umur"
+								}, {
+									title : "Pendidikan Terakhir",
+									data : "pendidikan_terakhir"
+								}
+								/* 		                            {
+								 title: "Action",
+								 data: null,
+								 render: function (data, type, row) {
+								 console.log(data);
+								 return "<button class='btn-primary' onclick=formBiodata.setEditData('" + data.kode + "')>Edit</button>"
+								 } 
+								 } */
+								]
+							});
+
+						} else {
+
+						}
+					},
+					error : function(err) {
+						console.log(err);
+					}
+				});
+			}
+		};
+		var formBiodata = {
+			resetForm : function() {
+				$('#form-biodata')[0].reset();
+			},
+			saveForm : function() {
+				// if ($('#form-biodata').parsley().validate()) {
+				var dataResult = getJsonForm($("#form-biodata")
+						.serializeArray(), true);
+
+				$.ajax({
+					url : '/person/insert',
+					method : 'post',
+					contentType : 'application/json',
+					dataType : 'json',
+					data : JSON.stringify(dataResult),
+					success : function(res, status, xhr) {
+						if (xhr.status == 200 || xhr.status == 201) {
+							tableBiodata.create();
+							$('#modal-biodata').modal('hide')
+
+						} else {
+
+						}
+					},
+					erorrr : function(err) {
+						console.log(err);
+					}
+				}, console.log(dataResult));
+				//}
+			},
+			setEditData : function(idCabang) {
+				formBiodata.resetForm();
+
+				$.ajax({
+					url : '/person/insert/' + idCabang,
+					method : 'get',
+					contentType : 'application/json',
+					dataType : 'json',
+					success : function(res, status, xhr) {
+						if (xhr.status == 200 || xhr.status == 201) {
+							$('#form-biodata').fromJSON(JSON.stringify(res));
+							$('#modal-biodata').modal('show')
+
+						} else {
+
+						}
+					},
+					erorrr : function(err) {
+						console.log(err);
+					}
+				});
+
+			}
+
+		};
+	</script>
+	<script>
+		tableBiodata.create();
+
+		/*         $('#btn-cari-pasien').click(function () {
+		 var tanggalLahir = new Date($('#tanggalLahir').val()) * 1;
+		 tableKelolaPasien.create();
+		 }); */
+
+		$('#btn-tambah-biodata').click(function() {
+			formBiodata.resetForm();
+			$('#modal-biodata').modal('show')
+		});
+
+		$('#btn-save-biodata').click(function() {
+			formBiodata.saveForm()
+		})
+	</script>
+</th:block>
+
+</html>
+
+

@@ -28,18 +28,6 @@ public class PersonServiceImpl implements PersonService {
 		this.biodataRepository = biodataRepository;
 	}
 	
-//	@Override 
-//	public List<Pendidikan> findByPersonIdPerson(Integer idPerson) {
-//		List<Pendidikan> pendidikan =  (List<Pendidikan>) pendidikanRepository.findByPersonIdPerson(idPerson);
-//		return pendidikan;
-//	}
-//
-//	@Override
-//	public ValidasiDataDto getPerson(Biodata biodata) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
 	@Override
 	public void insertPendidikan(Pendidikan pend) {
 		pendidikanRepository.save(pend);
@@ -57,7 +45,6 @@ public class PersonServiceImpl implements PersonService {
 	
 	@Override
 	public void insertPendidikan(@RequestBody List<PendidikanDto> pendDto, @PathVariable Integer idPerson) {
-
 		for (int i = 0; i < pendDto.size(); i++) {
 			Pendidikan pendidikan = convertToEntity(pendDto.get(i));
 			if (pendidikan.getInstitusi() == null || pendidikan.getJenjang() == null ||
@@ -78,4 +65,5 @@ public class PersonServiceImpl implements PersonService {
 		pendidikan.setTahunLulus(pendDto.getLulus());
 		return pendidikan;
 	}
+	
 }

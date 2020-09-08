@@ -5,7 +5,7 @@
 
 <div class="row mb-2" layout:fragment="content-header">
 	<div class="col-sm-6">
-		<h1 class="m-0 text-dark">Biodata</h1>
+		<h1 class="m-0 text-dark">Pendidikan</h1>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb float-sm-right">
@@ -17,32 +17,42 @@
 
 <div class="row" layout:fragment="content-body">
 
-
 	<div class="col-12">
 		<div class="card">
+			<!-- card-header -->	
 			<div class="card-header">
-				<h3 class="card-title">List Biodata</h3>
-				<button class="float-right btn-primary" id="btn-tambah-biodata">Tambah</button>
+				<h3 class="card-title">Data Pendidikan</h3>
 			</div>
-			<!-- /.card-header -->
+			<!-- card body input -->
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-2">
+						<form>
+							<input type="text" class="form-control" id="idPerson"
+									placeholder="Masukkan Id Person">
+						</form>
+					</div>
+					<div class="col-sm-2">
+						<button class="float-left btn btn-primary"
+							id="btn-tambah-biodata">Tambah</button>
+					</div>
+				</div>
+			<!-- card-body table-->
+			</div>
 			<div class="card-body table-responsive">
-				<table class="table table-striped table-bordered table-hover nowrap"
+					<table
+					class="table table-striped table-bordered table-hover nowrap"
 					id="tableBiodata" style="width: 100%"></table>
-			</div>
-			<!-- /.card-body -->
-			<div class="sm-col-2">
-				<label>NIK : </label> <input class="form-control" id="nik"
-					name="nik" placeholder="NIK" required type="text">
+				<button class="float-right btn btn-primary" id="add">Add</button>
 			</div>
 		</div>
-		<!-- /.card -->
 	</div>
-	<!-- /.col -->
+	<!-- Modal -->
 	<div class="modal fade" id="modal-biodata">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Form Person</h4>
+					<h4 class="modal-title">Form Pendidikan</h4>
 					<button aria-label="Close" class="close" data-dismiss="modal"
 						type="button">
 						<span aria-hidden="true">&times;</span>
@@ -51,13 +61,34 @@
 				<div class="modal-body">
 					<div class="card-header"></div>
 					<form id="form-biodata" role="form">
-						<input name="id" type="hidden" />
-
 						<div class="form-group">
-							<label>NIK : </label> <input class="form-control" id="nik"
-								name="nik" placeholder="NIK" required type="text">
+							<label>Jenjang :</label> <select class="form-control"
+								id="jenjang" name="jenjang">
+								<option>-- PILIH JENJANG PENDIDIKAN --</option>
+								<option>SD</option>
+								<option>SMP</option>
+								<option>SMA</option>
+								<option>Sarjana</option>
+								<option>Magister</option>
+								<option>Doktoral</option>
+							</select>
 						</div>
 
+						<div class="form-group">
+							<label>Institusi : </label> <input class="form-control"
+								id="institusi" name="institusi" placeholder="Institusi" required
+								type="text">
+						</div>
+
+						<div class="form-group">
+							<label>Masuk : </label> <input class="form-control" id="masuk"
+								name="masuk" placeholder="Tahun Masuk" required type="text">
+						</div>
+
+						<div class="form-group">
+							<label>Lulus : </label> <input class="form-control" id="lulus"
+								name="lulus" placeholder="Tahun Lulus" required type="text">
+						</div>
 					</form>
 				</div>
 				<div class="modal-footer justify-content-between">
@@ -71,70 +102,41 @@
 	</div>
 </div>
 
-
 <th:block layout:fragment="add-scripts">
 	<script>
+		var nilai = [];
+		var b;
 		var tableBiodata = {
 			create : function() {
-				// jika table tersebut datatable, maka clear and dostroy
+				console.log(nilai);
+				// jika table tersebut datatable, maka clear and destroy
 				if ($.fn.DataTable.isDataTable('#tableBiodata')) {
 					//table yg sudah dibentuk menjadi datatable harus d rebuild lagi untuk di instantiasi ulang
 					$('#tableBiodata').DataTable().clear();
 					$('#tableBiodata').DataTable().destroy();
 				}
 
-				$.ajax({
-					url : '/person/' + $("#nik").val(),
-					method : 'get',
-					contentType : 'application/json',
-					success : function(res, status, xhr) {
-						if (xhr.status == 200 || xhr.status == 201) {
-							console.log(res);
-							$('#tableBiodata').DataTable({
-								data : res,
-								columns : [ {
-									title : "NIK",
-									data : "nik"
-								}, {
-									title : "Nama",
-									data : "name"
-								}, {
-									title : "Alamat",
-									data : "address"
-								}, {
-									title : "No. Hp",
-									data : "hp"
-								}, {
-									title : "Tanggal Lahir",
-									data : "tgl"
-								}, {
-									title : "Tempat Lahir",
-									data : "tempatLahir"
-								}, {
-									title : "Umur",
-									data : "umur"
-								}, {
-									title : "Pendidikan Terakhir",
-									data : "pendidikan_terakhir"
-								}
-								/* 		                            {
-								 title: "Action",
-								 data: null,
-								 render: function (data, type, row) {
-								 console.log(data);
-								 return "<button class='btn-primary' onclick=formBiodata.setEditData('" + data.kode + "')>Edit</button>"
-								 } 
-								 } */
-								]
-							});
-
-						} else {
-
-						}
-					},
-					error : function(err) {
-						console.log(err);
-					}
+				$('#tableBiodata').DataTable({
+					data : nilai,
+					columns : 
+					[ 
+					{
+						title : "Jenjang",
+						data : "jenjang"
+					}, 
+					{
+						title : "Institusi",
+						data : "institusi"
+					}, 
+					{
+						title : "Masuk",
+						data : "masuk"
+					}, 
+					{
+						title : "Lulus",
+						data : "lulus"
+					} 
+					]
 				});
 			}
 		};
@@ -144,19 +146,15 @@
 			},
 			saveForm : function() {
 				// if ($('#form-biodata').parsley().validate()) {
-				var dataResult = getJsonForm($("#form-biodata")
-						.serializeArray(), true);
-
 				$.ajax({
-					url : '/person/insert',
+					url : '/pendidikan/' + $('#idPerson').val(),
 					method : 'post',
 					contentType : 'application/json',
 					dataType : 'json',
-					data : JSON.stringify(dataResult),
+					data : JSON.stringify(nilai),
 					success : function(res, status, xhr) {
 						if (xhr.status == 200 || xhr.status == 201) {
-							tableBiodata.create();
-							$('#modal-biodata').modal('hide')
+							alert("data berhasil masuk");
 
 						} else {
 
@@ -165,14 +163,14 @@
 					erorrr : function(err) {
 						console.log(err);
 					}
-				}, console.log(dataResult));
+				});
 				//}
 			},
 			setEditData : function(idCabang) {
 				formBiodata.resetForm();
 
 				$.ajax({
-					url : '/person/insert/' + idCabang,
+					url : '/pendidikan/insert/' + idCabang,
 					method : 'get',
 					contentType : 'application/json',
 					dataType : 'json',
@@ -193,23 +191,24 @@
 			}
 
 		};
-	</script>
-	<script>
-		tableBiodata.create();
-
 		/*         $('#btn-cari-pasien').click(function () {
 		 var tanggalLahir = new Date($('#tanggalLahir').val()) * 1;
 		 tableKelolaPasien.create();
 		 }); */
-
 		$('#btn-tambah-biodata').click(function() {
 			formBiodata.resetForm();
 			$('#modal-biodata').modal('show')
 		});
-
+		 
 		$('#btn-save-biodata').click(function() {
-			formBiodata.saveForm()
-		})
+			b = getJsonForm($("#form-biodata").serializeArray(), true);
+			nilai.push(b);
+			tableBiodata.create();
+		});
+
+		$('#add').click(function() {
+			formBiodata.saveForm();
+		});
 	</script>
 </th:block>
 

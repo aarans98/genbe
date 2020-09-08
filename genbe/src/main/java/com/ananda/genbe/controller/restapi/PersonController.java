@@ -83,7 +83,7 @@ public class PersonController {
 		return coba;
 	}
 
-//	Soal No. 1
+	//	Soal No. 1
 	@PostMapping("/insert")
 	public ValidasiDataDto insert(@RequestBody PersonDto dto) {
 		Calendar calendar = Calendar.getInstance();
@@ -110,7 +110,7 @@ public class PersonController {
 		return validasiSukses();
 	}
 	
-//	Soal no. 2
+	//	Soal no. 2
 	@GetMapping("/{nik}")
 	public ArrayList<Object> get(@PathVariable String nik) {
 		ArrayList<Object> List = new ArrayList<Object>();

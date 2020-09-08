@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class BaseMVCController {
+public class BaseMVCcontroller {
 	
 	@GetMapping("base")
 	public String base() {
@@ -28,18 +28,23 @@ public class BaseMVCController {
 	}
 	
 	// Menggunakan data table
-	@GetMapping("/1soal")
+	@GetMapping("/index1")
 	public String soalSatu() {
-		return "/biodata/1soal";
+		return "/biodata/index1";
 	}
 	
-	@GetMapping("/2soal")
+	@GetMapping("/index2")
 	public String soalDua() {
-		return "/biodata/2soal";
+		return "/biodata/index2";
 	}
 	
-	@GetMapping("/3soal")
+	@GetMapping("/index3")
 	public String soalTiga() {
-		return "/biodata/3soal";
+		return "/biodata/index3";
+	}
+	
+	@GetMapping("/htmlCoba2")
+	public String coba() {
+		return "/biodata/htmlCoba2";
 	}
 }

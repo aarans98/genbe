@@ -1,9 +1,9 @@
 package com.ananda.genbe.model.dto;
 
-import java.sql.Date;
+import java.sql.Date; 
 
 public class PersonDto {
-
+	
 	private Integer kode;
 	private String nik;
 	private String name;

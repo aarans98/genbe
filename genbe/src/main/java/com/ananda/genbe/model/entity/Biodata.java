@@ -8,22 +8,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "t_biodata")
 public class Biodata {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_bio", nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_bio", nullable = false, unique = true)
 	private Integer kodeBio;
-	
+
 	@Column(name = "nohp", length = 16)
 	private String noHp;
-	
+
 	@Column(name = "tanggal_lahir")
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date;
-	
+
 	@Column(name = "tempat_lahir", length = 50)
 	private String tempatLahir;
-	
+
 	@OneToOne
 	@JoinColumn(name = "id_person", nullable = false)
 	private Person person;
@@ -68,5 +68,4 @@ public class Biodata {
 		this.person = person;
 	}
 
-	
 }

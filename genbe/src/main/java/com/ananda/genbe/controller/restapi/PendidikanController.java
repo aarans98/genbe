@@ -35,6 +35,11 @@ public class PendidikanController {
 		this.pendidikanRepository = pendidikanRepository;
 	}
 	
+	@GetMapping("/insert")
+	public List<Pendidikan> get() {
+		return pendidikanRepository.findAll();
+	}
+	
 	@PostMapping("/{idPerson}")
 	public ValidasiDataDto insertPendidikan(@RequestBody List<PendidikanDto> pendDto, @PathVariable Integer idPerson) {
 		try {

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns: th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:
+	th="http://www.thymeleaf.org">
 <head>
 <head>
 <meta charset="utf-8">
@@ -22,19 +22,57 @@
 <link rel="stylesheet"
 	href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet"
-	href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	href="../../plugins/datatables-responsive/css/responsive.bootstrap4.css">
 <!-- SweetAlert2 -->
 <link rel="stylesheet"
 	href="../../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 <!-- Toastr -->
 <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
-
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <!-- Google Font: Source Sans Pro -->
 <link
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
 	rel="stylesheet">
+	
+<!--     <style>
+        input.parsley-success,
+        select.parsley-success,
+        textarea.parsley-success {
+            color: #468847;
+            background-color: #DFF0D8;
+            border: 1px solid #D6E9C6;
+        }
+
+
+        input.parsley-error,
+        select.parsley-error,
+        textarea.parsley-error {
+            color: #B94A48;
+            background-color: #F2DEDE;
+            border: 1px solid #EED3D7;
+        }
+
+        .parsley-errors-list {
+            margin: 2px 0 3px;
+            padding: 0;
+            list-style-type: none;
+            font-size: 0.9em;
+            line-height: 0.9em;
+            opacity: 0;
+            color: #B94A48;
+
+            transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            -moz-transition: all .3s ease-in;
+            -webkit-transition: all .3s ease-in;
+        }
+
+        .parsley-errors-list.filled {
+            opacity: 1;
+        }
+    </style> -->
+
 </head>
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
@@ -169,21 +207,21 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<div class="container-fluid">
-					<div layout:fragment="content-header" />
+					<div layout:fragment="content-header"/>
 				</div>
 				<!-- /.container-fluid -->
 			</section>
 			<!-- Main content -->
 			<div class="content">
 				<div class="container-fluid">
-					<div layout:fragment="content-body" />
+					<div layout:fragment="content-body"/>
 				</div>
 			</div>
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
 		<!-- Main footer -->
-		<!<th:block layout:replace="~{fragment/footer}"></th:block>
+		<th:block layout:replace="~{fragment/footer}"></th:block>
 		<!-- Control Sidebar -->
 		<aside class="control-sidebar control-sidebar-dark">
 			<!-- Control sidebar content goes here -->
@@ -196,20 +234,23 @@
 
 	<!-- jQuery -->
 	<script src="../../plugins/jquery/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+	<script src="../../js/default.js"></script>
 	<!-- Bootstrap 4 -->
 	<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- jsGrid -->
 	<script src="../../plugins/jsgrid/demos/db.js"></script>
 	<script src="../../plugins/jsgrid/jsgrid.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+	<!-- Select2 -->
+	<script src="../../plugins/select2/js/select2.full.min.js"></script>
 	<!-- Data Table -->
-	<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-	<script
-		src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-	<script
-		src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-	<script
-		src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script src="../../plugins/datatables/jquery.dataTables.js"></script>
+	<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+	<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
 	<!-- bs-custom-file-input -->
 
 	<!-- Alert -->
@@ -231,18 +272,16 @@
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<th:block layout:fragment="add-scripts">
-		<!-- Script untuk submit -->
-		
-		<!-- Script untuk reset -->
-		<script>
-			$("#reset").click(function() {
-				Swal.fire('Data berhasil dihapus','','success')
-				$("table tbody").empty();
-			});
-		</script>
+	<!-- Script untuk reset -->
+	<script>
+		$("#reset").click(function() {
+			Swal.fire('Data berhasil dihapus','','success')
+			$("table tbody").empty();
+		});
+	</script>
 	</th:block>
-<!-- Button -->
-<script type="text/javascript">
+	<!-- Button -->
+	<script type="text/javascript">
   $(function() {
     const Toast = Swal.mixin({
       toast: true,
@@ -395,7 +434,6 @@
       })
     });
   });
-
 </script>
 </body>
 </html>

@@ -5,7 +5,6 @@ import com.ananda.genbe.model.entity.*;
 import com.ananda.genbe.repository.*;
 //import com.ananda.genbe.service.*;
 import com.ananda.genbe.service.PersonService;
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +63,25 @@ public class PersonController {
 		dto.setMessage("data dengan nik " + nik + " tidak ditemukan");
 		return dto;
 	}
+	
+	// get all data
+	@GetMapping("/get")
+	public List<PersonDto> person() {
+		List<Person> personList = personRepository.findAll();
+		List<PersonDto> coba = new ArrayList<>();
+		for (Person b:personList) {
+			PersonDto personDto = new PersonDto();
+			Biodata biodata = biodataRepository.findByPersonKodePerson(b.getKodePerson());
+			personDto.setNik(b.getNik());
+			personDto.setName(b.getNama());
+			personDto.setAddress(b.getAlamat());
+			personDto.setTgl(biodata.getDate());
+			personDto.setTempatLahir(biodata.getTempatLahir());
+			personDto.setHp(biodata.getNoHp());
+			coba.add(personDto);
+		}
+		return coba;
+	}
 
 //	Soal No. 1
 	@PostMapping("/insert")
@@ -91,7 +109,7 @@ public class PersonController {
 		}
 		return validasiSukses();
 	}
-
+	
 //	Soal no. 2
 	@GetMapping("/{nik}")
 	public ArrayList<Object> get(@PathVariable String nik) {
